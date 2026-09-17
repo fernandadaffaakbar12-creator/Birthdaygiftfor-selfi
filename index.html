@@ -20,7 +20,9 @@
         <p class="now-playing-top">Now Playing</p>
         <img src="img/so.jpeg" alt="Album Cover" class="album-cover">
         <div class="music-info">
-            <p class="song-title">Shape Of My Heart</p>
+            <div class="marquee-wrapper">
+                <p class="song-title">Shape Of My Heart</p>
+            </div>
             <p class="artist-name">Backstreet Boys</p>
         </div>
         <button id="play-pause-btn" class="play-pause-btn" onclick="toggleMusic()">
@@ -57,7 +59,7 @@
             <h2>Enter PIN</h2>
             <p style="margin-bottom: 2px;">passwordnya tanggal + bulan jadian kita yaa</p>
             <p style="margin-top: 0;">(Awas aja kalau lupa)</p>
-            <input type="password" id="pin-input" maxlength="4" placeholder="****">
+            <input type="password" id="pin-input" maxlength="4" placeholder="****" inputmode="numeric" pattern="[0-9]*">
         </div>
     </div>
 
@@ -133,8 +135,8 @@
                     </div>
 
                     <div class="planet-card item3"
-                        data-embed="https://open.spotify.com/embed/track/13CwOTXUgBugeBByE9oIWb?utm_source=generator&si=1d70790de8db4524"
-                        data-caption="Kota ini tak sama tanpamu - Nadhif Basalamah">
+                        data-embed="https://open.spotify.com/embed/track/0tgVpDi06FyKpA1z0VMD4v?utm_source=generator&si=b884de3e2c144942"
+                        data-caption="Perfect - Ed Sheeran">
                         <img src="img/favorite-song.jpg" alt="Song">
                         <p class="planet-caption">Your favorite song</p>
                     </div>
