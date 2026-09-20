@@ -59,12 +59,12 @@
 
             // Random color
             const colors = [
-                'rgba(255, 182, 193, 0.9)',
-                'rgba(255, 150, 180, 0.85)',
-                'rgba(255, 200, 220, 0.8)',
-                'rgba(220, 160, 255, 0.7)',
-                'rgba(255, 255, 255, 0.6)',
-                'rgba(255, 130, 170, 0.9)'
+                'rgba(26, 107, 196, 0.9)',
+                'rgba(91, 163, 230, 0.85)',
+                'rgba(60, 140, 220, 0.8)',
+                'rgba(100, 170, 240, 0.7)',
+                'rgba(26, 58, 92, 0.6)',
+                'rgba(30, 120, 210, 0.9)'
             ];
             el.style.color = colors[Math.floor(Math.random() * colors.length)];
 
@@ -175,7 +175,7 @@
         const pinPopupClose = document.getElementById('pin-popup-close');
 
         // DEFAULT PIN: Silakan ubah angka ini jika ingin PIN lain
-        const SECRET_PIN = "0307";
+        const SECRET_PIN = "2209";
 
         let pinAttempt = 0;
         let popupTimeout = null;
@@ -768,7 +768,7 @@ document.addEventListener('DOMContentLoaded', () => {
             canvas.width = 220;
             canvas.height = Math.round(220 * 16 / 9);
 
-            ctx.fillStyle = '#0a0a0a';
+            ctx.fillStyle = '#b8dcf8';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             for (let i = 0; i < 200; i++) {
@@ -779,7 +779,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     Math.random() * 1.5,
                     0, Math.PI * 2
                 );
-                ctx.fillStyle = Math.random() > 0.5 ? 'rgba(255,255,255,0.8)' : 'rgba(255,182,193,0.8)';
+                ctx.fillStyle = Math.random() > 0.5 ? 'rgba(255,255,255,0.8)' : 'rgba(26,107,196,0.5)';
                 ctx.fill();
             }
 
@@ -1155,10 +1155,10 @@ function tampilkanTahap3() {
 
 function buatConfetti() {
     const colors = [
-        '#ff6b81', '#ffb6c1', '#a55eea', '#6c5ce7', '#ffd700',
-        '#ff9ff3', '#f368e0', '#ffffff', '#00d2d3', '#ff6348',
-        '#7bed9f', '#ffa502', '#ff4757', '#2ed573', '#eccc68',
-        '#ff7eb3', '#c56cf0', '#17c0eb', '#ffc312'
+        '#5ba3e6', '#1a6bc4', '#38b2ac', '#4fd1c5', '#ffd700',
+        '#7ab8f0', '#3d8ad8', '#ffffff', '#00d2d3', '#48c6ef',
+        '#7bed9f', '#63b3ed', '#4299e1', '#2ed573', '#eccc68',
+        '#90cdf4', '#667eea', '#17c0eb', '#ffc312'
     ];
     const shapes = ['circle', 'rect', 'star', 'heart', 'ribbon'];
     const animStyles = ['', 'confetti-swirl', 'confetti-zigzag'];
@@ -1224,3 +1224,152 @@ function buatConfetti() {
     // Gelombang 3: Hujan confetti lanjutan
     setTimeout(() => burstWave(40, 0), 2000);
 }
+
+// ==========================================
+// AWAN BERGERAK (FLOATING CLOUDS)
+// Awan muncul di posisi acak, bergerak santai ke kanan.
+// Semakin ke bawah (halaman berikutnya), awan semakin bold.
+// ==========================================
+(function () {
+    const CLOUD_COUNT = 8; // Jumlah awan aktif secara bersamaan
+    const SIZES = ['cloud-sm', 'cloud-md', 'cloud-lg', 'cloud-xl'];
+    let currentCloudLevel = 1; // Level opacity saat ini (1-6)
+    let cloudsActive = false;
+
+    function buatAwan() {
+        const container = document.getElementById('clouds-container');
+        if (!container) return;
+
+        const cloud = document.createElement('div');
+        const sizeClass = SIZES[Math.floor(Math.random() * SIZES.length)];
+
+        cloud.classList.add('cloud', sizeClass, 'cloud-level-' + currentCloudLevel);
+
+        // Buat elemen bentuk awan
+        const body = document.createElement('div');
+        body.classList.add('cloud-body');
+        cloud.appendChild(body);
+
+        // Posisi vertikal acak (5% - 85% dari viewport)
+        const topPos = 5 + Math.random() * 80;
+        cloud.style.top = topPos + '%';
+
+        // Kecepatan drift acak (santai: 25-55 detik untuk melintas layar)
+        const duration = 25 + Math.random() * 30;
+        cloud.style.animation = 'cloudDrift ' + duration + 's linear forwards';
+
+        // Delay mulai acak untuk variasi
+        const delay = Math.random() * 5;
+        cloud.style.animationDelay = delay + 's';
+
+        container.appendChild(cloud);
+
+        // Hapus awan saat animasi selesai
+        const totalTime = (duration + delay) * 1000;
+        setTimeout(() => {
+            cloud.remove();
+            // Buat awan baru sebagai pengganti jika masih aktif
+            if (cloudsActive) {
+                buatAwan();
+            }
+        }, totalTime);
+    }
+
+    function mulaiAwan() {
+        if (cloudsActive) return;
+        cloudsActive = true;
+
+        // Buat sejumlah awan awal dengan jeda kecil
+        for (let i = 0; i < CLOUD_COUNT; i++) {
+            setTimeout(() => {
+                if (cloudsActive) buatAwan();
+            }, i * 2000); // Spawn bertahap setiap 2 detik
+        }
+    }
+
+    function hentikanAwan() {
+        cloudsActive = false;
+        const container = document.getElementById('clouds-container');
+        if (container) {
+            container.style.opacity = '0';
+            setTimeout(() => {
+                container.innerHTML = '';
+                container.style.opacity = '1';
+            }, 800);
+        }
+    }
+
+    function updateCloudLevel(level) {
+        if (level === currentCloudLevel) return;
+        currentCloudLevel = level;
+
+        // Update semua awan yang ada
+        const allClouds = document.querySelectorAll('.cloud');
+        allClouds.forEach(cloud => {
+            // Hapus semua class level sebelumnya
+            for (let i = 1; i <= 6; i++) {
+                cloud.classList.remove('cloud-level-' + i);
+            }
+            // Tambahkan class level baru
+            cloud.classList.add('cloud-level-' + level);
+        });
+    }
+
+    // Observer untuk mendeteksi halaman/slide mana yang sedang terlihat
+    function setupCloudObserver() {
+        const slides = document.querySelectorAll('#main-content .slide');
+        if (slides.length === 0) return;
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Cari index slide ini
+                    const slideIndex = Array.from(slides).indexOf(entry.target);
+                    // Level 1 untuk slide pertama, level 2 untuk kedua, dst. (max 6)
+                    const level = Math.min(slideIndex + 1, 6);
+                    updateCloudLevel(level);
+                }
+            });
+        }, {
+            threshold: 0.3 // 30% terlihat = aktif
+        });
+
+        slides.forEach(slide => observer.observe(slide));
+    }
+
+    // Mulai awan saat main-content terlihat (setelah buka kado)
+    // Kita override bukaKado agar awan muncul
+    const originalBukaKado = window.bukaKado;
+
+    window.bukaKado = function () {
+        if (typeof originalBukaKado === 'function') {
+            originalBukaKado();
+        }
+
+        // Mulai awan setelah konten utama muncul
+        setTimeout(() => {
+            mulaiAwan();
+            setupCloudObserver();
+        }, 1000);
+    };
+
+    // Juga sembunyikan awan saat halaman lilin dibuka
+    const originalBukaLilin = window.bukaHalamanLilin;
+    window.bukaHalamanLilin = function () {
+        hentikanAwan();
+        if (typeof originalBukaLilin === 'function') {
+            originalBukaLilin();
+        }
+    };
+
+    // Kembalikan awan saat kembali dari halaman lilin
+    const originalTutupLilin = window.tutupHalamanLilin;
+    window.tutupHalamanLilin = function () {
+        if (typeof originalTutupLilin === 'function') {
+            originalTutupLilin();
+        }
+        setTimeout(() => {
+            mulaiAwan();
+        }, 1000);
+    };
+})();
