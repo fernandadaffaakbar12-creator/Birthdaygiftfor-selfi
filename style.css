@@ -550,15 +550,19 @@ body {
 }
 
 .item2 {
-    transform: rotateY(90deg) translateZ(280px);
+    transform: rotateY(72deg) translateZ(280px);
 }
 
 .item3 {
-    transform: rotateY(180deg) translateZ(280px);
+    transform: rotateY(144deg) translateZ(280px);
 }
 
 .item4 {
-    transform: rotateY(270deg) translateZ(280px);
+    transform: rotateY(216deg) translateZ(280px);
+}
+
+.item5 {
+    transform: rotateY(288deg) translateZ(280px);
 }
 
 /* =========================================
@@ -1076,15 +1080,19 @@ body {
     }
 
     .item2 {
-        transform: rotateY(90deg) translateZ(180px);
+        transform: rotateY(72deg) translateZ(180px);
     }
 
     .item3 {
-        transform: rotateY(180deg) translateZ(180px);
+        transform: rotateY(144deg) translateZ(180px);
     }
 
     .item4 {
-        transform: rotateY(270deg) translateZ(180px);
+        transform: rotateY(216deg) translateZ(180px);
+    }
+
+    .item5 {
+        transform: rotateY(288deg) translateZ(180px);
     }
 
     #main-content {
